@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace saArash\permissions\controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
-use App\Models\Permission;
-use App\Models\Role;
+use saArash\permissions\models\Permission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
-
+use saArash\permissions\models\Role;
 class RoleController extends Controller
 {
     /**
@@ -18,20 +18,10 @@ class RoleController extends Controller
      */
     public function index()
     {
-        if(isset(Permission::where('permission','config')->with('roles')->first()->roles[0]))
-        {
-            Gate::authorize('config',auth()->user()->role);
-        }
-        return view('role.role');
+        $roles = Role::get();
+//        dd($roles);
+        return view('permissions::role',compact('roles'));
 
-    }
-    public function trash()
-    {
-        if(isset(Permission::where('permission','config')->with('roles')->first()->roles[0]))
-        {
-            Gate::authorize('config',auth()->user()->role);
-        }
-        return view('role.trash');
     }
 
     /**
@@ -39,20 +29,17 @@ class RoleController extends Controller
      */
     public function create()
     {
-        if(isset(Permission::where('permission','config')->with('roles')->first()->roles[0]))
-        {
-            Gate::authorize('config',auth()->user()->role);
-        }
+
         $categories=Role::query()->get();
         $permissions=Permission::query()->get();
-        return view('role.create',compact('categories','permissions'));
+        return view('permissions::create',compact('categories','permissions'));
 
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRoleRequest $request)
+    public function store(Request $request)
     {
         $selectedPermission = [];
         // $roles =Role::get();
@@ -88,22 +75,24 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Role $role)
+    public function edit($role)
     {
-        if(isset(Permission::where('permission','config')->with('roles')->first()->roles[0]))
-        {
-            Gate::authorize('config',auth()->user()->role);
-        }
+//        if(isset(Permission::where('permission','config')->with('roles')->first()->roles[0]))
+//        {
+//            Gate::authorize('config',auth()->user()->role);
+//        }
+        $role=Role::where('id',$role)->first();
         $permissions=Permission::query()->get();
 
-        return view('role.edit',compact('role','permissions'));
+        return view('permissions::edit',compact('role','permissions'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(Request $request, $role)
     {
+        $role=Role::where('id',$role)->first();
         $selectedPermission = [];
         foreach(Permission::get() as $permission){
 

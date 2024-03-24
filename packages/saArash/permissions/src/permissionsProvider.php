@@ -12,7 +12,9 @@ class permissionsProvider extends ServiceProvider
     public function register(): void
     {
 
-
+        $this->mergeConfigFrom(
+            __DIR__.'/configs/permissions.php', 'permission-config'
+        );
     }
 
     /**
@@ -23,14 +25,12 @@ class permissionsProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadMigrationsFrom(__DIR__ . '/migrations');
         $this->loadViewsFrom(__DIR__ . '/views', 'permissions');
-
         $this->publishes([
             __DIR__ . '/views' => resource_path('views/vendor/permissions'),
         ],'permissions');
         $this->publishes([
             __DIR__ . '/configs/permissions.php' => config_path('permissions.php')
         ], 'permissions');
-
         $this->publishes([
             __DIR__ . '/migrations/' => database_path('migrations')
         ], 'permissions');
