@@ -1,12 +1,3 @@
-composer require saarash/permissions
-
-
-
-
-
-
-
-
 #### Composer Install 
 
 	composer require saarash/permissions
