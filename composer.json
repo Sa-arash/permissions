@@ -1,0 +1,15 @@
+{
+    "name": "saarash/permissions",
+    "autoload": {
+        "psr-4": {
+            "saArash\\permissions\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "saman",
+            "email": "sa.arash32@gmail.com"
+        }
+    ],
+    "require": {}
+}
