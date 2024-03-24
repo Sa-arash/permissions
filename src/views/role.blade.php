@@ -1,3 +1,4 @@
+<a href="{{ rotue('role.creat') }}">create role</a>
 <table border="">
     @foreach($roles as $role )
         <tr>
